@@ -19,12 +19,22 @@ oneinv_command:
     - else:
         - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
             - flag server one_inventory:<server.flag[text_enabled]>
+            - repeat 36 as:count:
+                - define slot <[count]>
+                - if <[slot]> != 5:
+                    - define saved <player.inventory.slot[<[slot]>]>
+                    - drop <[saved]> <player.location>
+            - run fill_slot_task
             - narrate "<&a>인벤토리 한 칸 모드 활성화"
         - else:
             - flag server one_inventory:<server.flag[text_disabled]>
+            - repeat 36 as:count:
+                - define slot <[count]>
+                - if <[slot]> != 5:
+                    - inventory set d:<player.inventory> slot:<[slot]> o:air
             - narrate "<&c>인벤토리 한 칸 모드 비활성화"
 
-one_inventory_world:
+oneinv_world:
     type: world
     events:
         on player dies:
@@ -35,12 +45,17 @@ one_inventory_world:
             - determine NO_DROPS
 
         after player dies:
-            - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
+            - run fill_slot_task
+
+fill_slot_task:
+    type: task
+    script:
+        - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
                 - stop
-            - repeat 36 as:count:
-                - define slot <[count]>
-                - if <[slot]> != 5:
-                    - inventory set d:<player.inventory> slot:<[slot]> o:empty_slot
+        - repeat 36 as:count:
+            - define slot <[count]>
+            - if <[slot]> != 5:
+                - inventory set d:<player.inventory> slot:<[slot]> o:empty_slot
 
 empty_slot:
     type: item
