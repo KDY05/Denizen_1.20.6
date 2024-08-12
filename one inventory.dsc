@@ -1,4 +1,4 @@
-# 이루(https://github.com/uniqueleru/Denizen-1.20.6)님이 작성하신 스크립트와 연동되며, 단독 사용도 가능합니다.
+# '/oneinv'로 모든 플레이어에 대해 키고 끌 수 있습니다.
 # script written by 어라랍
 
 script_load:
@@ -16,23 +16,23 @@ oneinv_command:
     script:
     - if !<server.has_flag[one_inventory]>:
         - flag server one_inventory:<server.flag[text_enabled]>
+        - foreach <server.online_players> as:players:
+            - run fill_slot_task def.target:<[players]>
+        - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<server.online_players>
     - else:
         - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
             - flag server one_inventory:<server.flag[text_enabled]>
-            - repeat 36 as:count:
-                - define slot <[count]>
-                - if <[slot]> != 5:
-                    - define saved <player.inventory.slot[<[slot]>]>
-                    - drop <[saved]> <player.location>
-            - run fill_slot_task
-            - narrate "<&a>인벤토리 한 칸 모드 활성화"
+            - foreach <server.online_players> as:players:
+                - run fill_slot_task def.target:<[players]>
+            - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<server.online_players>
         - else:
             - flag server one_inventory:<server.flag[text_disabled]>
-            - repeat 36 as:count:
-                - define slot <[count]>
-                - if <[slot]> != 5:
-                    - inventory set d:<player.inventory> slot:<[slot]> o:air
-            - narrate "<&c>인벤토리 한 칸 모드 비활성화"
+            - foreach <server.online_players> as:players:
+                - repeat 36 as:count:
+                    - define slot <[count]>
+                    - if <[slot]> != 5:
+                        - inventory set d:<[players].inventory> slot:<[slot]> o:air
+            - narrate "<&c>인벤토리 한 칸 모드가 비활성화되었습니다." targets:<server.online_players>
 
 oneinv_world:
     type: world
@@ -43,24 +43,24 @@ oneinv_world:
             - define saved <player.inventory.slot[5]>
             - drop <[saved]> <player.location>
             - determine NO_DROPS
-
         after player dies:
-            - run fill_slot_task
+            - run fill_slot_task def.target:<player>
 
 fill_slot_task:
     type: task
+    definitions: target
     script:
         - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
                 - stop
         - repeat 36 as:count:
+                - define slot <[count]>
+                - if <[slot]> != 5:
+                    - define saved <[target].inventory.slot[<[slot]>]>
+                    - drop <[saved]> <[target].location>
+        - repeat 36 as:count:
             - define slot <[count]>
             - if <[slot]> != 5:
-                - inventory set d:<player.inventory> slot:<[slot]> o:empty_slot
-
-empty_slot:
-    type: item
-    material: light_gray_stained_glass_pane
-    display name: ' '
+                - inventory set d:<[target].inventory> slot:<[slot]> o:empty_slot
 
 empty_slot_interaction:
     type: world
@@ -85,3 +85,8 @@ empty_slot_interaction:
             - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
                 - stop
             - determine cancelled
+
+empty_slot:
+    type: item
+    material: light_gray_stained_glass_pane
+    display name: ' '
