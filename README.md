@@ -1,1 +1,1 @@
-"# Denizen_1.20.6" 
+Denizen_1.20.6
