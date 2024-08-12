@@ -1,6 +1,28 @@
-# 이루(https://github.com/uniqueleru)님이 작성하신 스크립트와 연동되는 스크립트입니다. (요구파일: gui.dsc, util.dsc)
-# 주의: '/optiongui'에서 인벤토리 한 칸을 활성화 후 한 번 죽어야 작동하기 시작합니다.
+# 이루(https://github.com/uniqueleru/Denizen-1.20.6)님이 작성하신 스크립트와 연동되며, 단독 사용도 가능합니다.
 # script written by 어라랍
+
+script_load:
+    type: world
+    events:
+        on scripts loaded:
+            - flag server text_enabled:<&a>활성화됨
+            - flag server text_disabled:<&c>비활성화됨
+
+oneinv_command:
+    type: command
+    name: oneinv
+    description: 인벤토리 한 칸 모드 토글
+    usage: /oneinv
+    script:
+    - if !<server.has_flag[one_inventory]>:
+        - flag server one_inventory:<server.flag[text_enabled]>
+    - else:
+        - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
+            - flag server one_inventory:<server.flag[text_enabled]>
+            - narrate "<&a>인벤토리 한 칸 모드 활성화"
+        - else:
+            - flag server one_inventory:<server.flag[text_disabled]>
+            - narrate "<&c>인벤토리 한 칸 모드 비활성화"
 
 one_inventory_world:
     type: world
@@ -20,7 +42,14 @@ one_inventory_world:
                 - if <[slot]> != 5:
                     - inventory set d:<player.inventory> slot:<[slot]> o:empty_slot
 
-        # 이 아래부터는 금지된 슬롯(empty_slot)과의 모든 상호작용을 금지하기 위한 월드 스크립트입니다.
+empty_slot:
+    type: item
+    material: light_gray_stained_glass_pane
+    display name: ' '
+
+empty_slot_interaction:
+    type: world
+    events:
         on player drops empty_slot:
             - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
                 - stop
@@ -41,9 +70,3 @@ one_inventory_world:
             - if <server.flag[one_inventory]> == <server.flag[text_disabled]>:
                 - stop
             - determine cancelled
-
-# 금지된 슬롯 정의
-empty_slot:
-    type: item
-    material: light_gray_stained_glass_pane
-    display name: ' '
