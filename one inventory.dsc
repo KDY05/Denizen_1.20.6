@@ -1,5 +1,5 @@
 # 이루(https://github.com/uniqueleru)님이 작성하신 스크립트와 연동되는 스크립트입니다. (요구파일: gui.dsc, util.dsc)
-# 주의: '/optiongui'에서 인벤토리 한 칸을 활성화 후 한 번 죽어야 작동하기 시작합니다. (/kill @s)
+# 주의: '/optiongui'에서 인벤토리 한 칸을 활성화 후 한 번 죽어야 작동하기 시작합니다.
 # script written by 어라랍
 
 one_inventory_world:
