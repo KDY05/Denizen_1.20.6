@@ -1,5 +1,5 @@
 # "인벤토리 한 칸 스크립트" written by 어라랍
-# '/oneinv'로 모든 플레이어에 대해 키고 끌 수 있습니다.
+# '/oneinv on|off'로 모든 플레이어에 대해 켜거나 끌 수 있습니다.
 
 oneinv_command:
     type: command
@@ -9,14 +9,21 @@ oneinv_command:
     tab completions:
         1: on|off
     script:
-    - if <context.args.is_empty>:
-        - narrate "<&e>/oneinv on|off" targets:<player>
-        - stop
-    - choose <context.args.first>:
-        - case on:
-            - run oneinv_on_task
-        - case off:
-            - run oneinv_off_task
+    - if <player.is_op>:
+        - if <context.args.is_empty>:
+            - narrate "<&e>/oneinv on|off" targets:<player>
+            - stop
+        - choose <context.args.first>:
+            - case on:
+                - run oneinv_on_task
+                - stop
+            - case off:
+                - run oneinv_off_task
+                - stop
+            - default:
+                - narrate "<&e>/oneinv on|off" targets:<player>
+    - else:
+        - narrate "<&7>당신은 권한을 가지고 있지 않습니다." targets:<player>
 
 oneinv_on_task:
     type: task
