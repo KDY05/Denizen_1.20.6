@@ -11,21 +11,20 @@ oneinv_command:
         - flag server one_inv:enabled
         - foreach <server.online_players> as:players:
             - run fill_slot_task def.target:<[players]>
-        - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<server.online_players>
+            - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<[players]>
     - else:
         - if <server.flag[one_inv]> == disabled:
             - flag server one_inv:enabled
             - foreach <server.online_players> as:players:
                 - run fill_slot_task def.target:<[players]>
-            - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<server.online_players>
+                - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<[players]>
         - else:
             - flag server one_inv:disabled
             - foreach <server.online_players> as:players:
                 - repeat 36 as:count:
-                    - define slot <[count]>
-                    - if <[slot]> != 5:
-                        - inventory set d:<[players].inventory> slot:<[slot]> o:air
-            - narrate "<&c>인벤토리 한 칸 모드가 비활성화되었습니다." targets:<server.online_players>
+                    - if <[count]> != 5:
+                        - inventory set d:<[players].inventory> slot:<[count]> o:air
+                - narrate "<&c>인벤토리 한 칸 모드가 비활성화되었습니다." targets:<[players]>
 
 oneinv_world:
     type: world
@@ -40,20 +39,22 @@ oneinv_world:
             - if <server.flag[one_inv]> == disabled:
                 - stop
             - run fill_slot_task def.target:<player>
+        on player swaps items:
+            - if <server.flag[one_inv]> == disabled:
+                - stop
+            - determine cancelled
 
 fill_slot_task:
     type: task
     definitions: target
     script:
         - repeat 36 as:count:
-            - define slot <[count]>
-            - if <[slot]> != 5:
-                - define saved <[target].inventory.slot[<[slot]>]>
+            - if <[count]> != 5:
+                - define saved <[target].inventory.slot[<[count]>]>
                 - drop <[saved]> <[target].location>
-        - repeat 36 as:count:
-            - define slot <[count]>
-            - if <[slot]> != 5:
-                - inventory set d:<[target].inventory> slot:<[slot]> o:empty_slot
+                - inventory set d:<[target].inventory> slot:<[count]> o:empty_slot
+        - drop <[target].item_in_offhand> <[target].location>
+        - adjust <[target]> item_in_offhand:air
 
 empty_slot_interaction:
     type: world
@@ -67,10 +68,6 @@ empty_slot_interaction:
                 - stop
             - determine cancelled
         on player drags empty_slot in inventory:
-            - if <server.flag[one_inv]> == disabled:
-                - stop
-            - determine cancelled
-        on player swaps items:
             - if <server.flag[one_inv]> == disabled:
                 - stop
             - determine cancelled
