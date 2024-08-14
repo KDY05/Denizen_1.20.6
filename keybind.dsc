@@ -29,7 +29,7 @@ menu_gui_world:
 
 border:
     type: item
-    material: black_stained_glass_pane
+    material: gray_stained_glass_pane
     display name: ' '
 
 shop:
