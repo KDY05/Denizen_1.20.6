@@ -14,24 +14,20 @@ menu_gui:
     size: 45
     gui: true
     slots:
-    - [border] [border] [border] [border] [border] [border] [border] [border] [border]
+    - [border] [border] [border] [border] [profile] [border] [border] [border] [border]
     - [border] [] [] [] [] [] [] [] [border]
     - [border] [] [] [] [shop] [] [] [] [border]
     - [border] [] [] [] [] [] [] [] [border]
-    - [border] [border] [border] [border] [border] [border] [border] [border] [border]
+    - [border] [border] [border] [border] [back] [border] [border] [border] [border]
 
 menu_gui_world:
     type: world
     events:
         on player clicks in menu_gui:
         - if <context.item> == <item[shop]>:
-            - execute as_player "shop"
-
-border:
-    type: item
-    material: gray_stained_glass_pane
-    display name: ' '
-
+            - inventory open d:shop_section
+        - if <context.item> == <item[back]>:
+            - inventory close
 shop:
     type: item
     material: emerald
@@ -40,3 +36,22 @@ shop:
     - <&7>
     - <&7> - 상점을 엽니다.
     - <&7>
+
+profile:
+    type: item
+    material: <player.skull_item>
+    display name: <player.name>
+    lore:
+    - <&f>
+    - <&f> 소지금: <player.formatted_money>
+    - <&f>
+
+border:
+    type: item
+    material: gray_stained_glass_pane
+    display name: ' '
+
+back:
+    type: item
+    material: barrier
+    display name: <&f>뒤로 가기
