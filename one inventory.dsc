@@ -69,6 +69,8 @@ oneinv_world:
             - stop
         - define saved <player.inventory.slot[5]>
         - drop <[saved]> <player.location>
+        - foreach <player.equipment> as:equip:
+            - drop <[equip]> <player.location>
         - determine NO_DROPS
         after player dies:
         - if <server.flag[one_inv]> == disabled:
