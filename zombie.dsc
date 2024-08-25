@@ -29,7 +29,7 @@ zombie_world:
         - if <context.entity.is_baby>:
             - flag server age:baby
         - else:
-            - flag server age: adult
+            - flag server age:adult
         - define rand <util.random.int[1].to[2]>
         - if <[rand]> == 1:
             - spawn zombie_vil_with_prof <context.entity.location> persistent
