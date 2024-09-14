@@ -1,6 +1,7 @@
 # "인벤토리 한 칸 스크립트" written by 어라랍
 # '/oneinv on|off'로 모든 플레이어에 대해 켜거나 끌 수 있습니다.
 
+
 oneinv_command:
     type: command
     name: oneinv
