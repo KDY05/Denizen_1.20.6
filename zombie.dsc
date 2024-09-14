@@ -1,4 +1,4 @@
-# 좀비화 스크립트 (beta 1.0)
+# 좀비화 스크립트 (v1.1)
 # 사용 방법: /zombie on|off (서버에 접속한 모든 플레이어에게 적용됩니다.)
 # 기능: 좀비 기본 스펙 적용(공격력 3, 방어력 2), 햇빛에 탐, 체력 자연 재생 불가, 사망 시 보유 아이템 대신 썩은고기 드랍, 주민 강제 타격, 철골렘 적대
 # Script written by 어라랍(https://github.com/KDY05)
@@ -11,7 +11,7 @@ zombie_world:
         - foreach <server.online_players> as:origin:
             # 햇빛에 탐
             - if <[origin].location.world.is_day>:
-                - if <[origin].location.highest.y> <= <[origin].location.y.sub[1]>:
+                - if ( <[origin].location.highest.y> <= <[origin].location.y.sub[1]> ) && ( !<[origin].has_equipped[*_helmet]> ):
                     - burn <[origin]> duration:8
                     - actionbar "<&e>볕이 너무 뜨겁다!" targets:<[origin]>
             # 주민 강제 타격
