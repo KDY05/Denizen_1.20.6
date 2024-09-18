@@ -1,10 +1,3 @@
-nodrops_init:
-    type: world
-    events:
-        on scripts loaded:
-        - if !<server.has_flag[nodrops]>:
-            - flag server nodrops:false
-
 nodrops_world:
     type: world
     enabled: <server.flag[nodrops]>
@@ -37,3 +30,10 @@ nodrops_command:
                 - stop
             - default:
                 - narrate "<&e>/nodrops on|off" targets:<player>
+
+nodrops_init:
+    type: world
+    events:
+        on scripts loaded:
+        - if !<server.has_flag[nodrops]>:
+            - flag server nodrops:false
