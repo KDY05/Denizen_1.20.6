@@ -3,6 +3,13 @@
 # 기능: 좀비 기본 스펙 적용(공격력 3, 방어력 2), 햇빛에 탐, 체력 자연 재생 불가, 사망 시 보유 아이템 대신 썩은고기 드랍, 주민 강제 타격, 철골렘 적대
 # Script written by 어라랍(https://github.com/KDY05)
 
+zombie_init:
+    type: world
+    events:
+        on scripts loaded:
+        - if !<server.has_flag[zombie]>:
+            - flag server zombie:false
+
 zombie_world:
     type: world
     enabled: <server.flag[zombie]>
@@ -102,10 +109,3 @@ zombie_command:
                 - stop
             - default:
                 - narrate "<&e>/zombie on|off" targets:<player>
-
-zombie_init:
-    type: world
-    events:
-        on scripts loaded:
-        - if !<server.has_flag[zombie]>:
-            - flag server zombie:false
