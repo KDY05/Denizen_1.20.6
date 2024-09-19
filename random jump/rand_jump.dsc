@@ -1,4 +1,4 @@
-# 랜덤 점프 스크립트 (v0.9)
+# 랜덤 점프 스크립트 (v1.0)
 # 사용 방법: /randjump on|off (서버의 모든 플레이어에게 적용됩니다.)
 # 기능: 점프의 강도가 매번 랜덤으로 변동합니다.
 # Script written by 어라랍(https://github.com/KDY05)
