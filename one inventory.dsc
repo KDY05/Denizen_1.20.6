@@ -25,6 +25,7 @@ oneinv_command:
                 - narrate "<&e>이미 활성화되었습니다." targets:<player>
                 - stop
             - flag server one_inv:true
+            - reload scripts_now
             - foreach <server.online_players> as:players:
                 - run fill_slot_task def.target:<[players]>
                 - narrate "<&a>인벤토리 한 칸 모드가 활성화되었습니다." targets:<[players]>
@@ -34,6 +35,7 @@ oneinv_command:
                 - narrate "<&e>이미 비활성화되었습니다." targets:<player>
                 - stop
             - flag server one_inv:false
+            - reload scripts_now
             - foreach <server.online_players> as:players:
                 - repeat 36 as:count:
                     - if <[count]> != 5:
